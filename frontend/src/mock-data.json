@@ -1,0 +1,25 @@
+[
+    {
+      "id": 1,
+      "FirstName": "Gift",
+      "LastName": "Brown",
+      "Specialization": "Dentist"
+      
+    },
+    {
+      "id": 2,
+      "FirstName": "Yengwe",
+      "LastName": "Bush",
+      "Specialization": "Gynecologist"
+      
+    },
+    {
+      "id": 3,
+      "FirstName": "Lois",
+      "LastName": "Yumba",
+      "Specialization": "Pediatrician"
+      
+    }
+   
+   
+  ]

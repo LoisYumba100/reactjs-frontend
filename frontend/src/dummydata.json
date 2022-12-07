@@ -1,0 +1,31 @@
+[
+    {
+      "id": 1,
+      "DoctorsName": "Gift",
+      "PatientsName": "Brown",
+      "AppointmentDescription": "Dentist",
+      "AppointmentTime": "08:am",
+      "Status": "unknown"
+      
+    },
+    {
+      "id": 2,
+      "DoctorsName": "Yengwe",
+      "PatientsName": "Bush",
+      "AppointmentDescription": "Gynecologist",
+      "AppointmentTime": "08:am",
+      "Status": "unknown"
+      
+    },
+    {
+      "id": 3,
+      "DoctorsName": "Lois",
+      "PatientsName": "Yumba",
+      "AppointmentDescription": "Pediatrician",
+      "AppointmentTime": "08:am",
+      "Status": "unknown"
+      
+    }
+   
+   
+  ]
