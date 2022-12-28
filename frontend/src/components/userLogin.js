@@ -1,76 +1,113 @@
-
-import React from 'react'
-import '../userLogin.css'
-import {useNavigate} from 'react-router-dom'
-
-
+import axios from "axios";
+import React, { useState } from "react";
+import { useJwt } from "react-jwt";
+import { useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import "../userLogin.css";
+import jwt_decode from 'jwt-decode'
 
 function UserLogin() {
+  const { setAuth } = useAuth();
+  
 
   const navigate = useNavigate();
-    return (
-      <div className='loginb' >
-       <form>
-   
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
-  <div className="form">
-    <h1>Hospital appointment module</h1><br/>
-    <h1>User Login</h1>
-    <input type="text" placeholder='username'  className="form-control" required='required'/>
-    <br/>
-    
-    
-    
-   
- 
-  <br/>
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
- 
-  <div className="form-outline mb-4">
-    <input type="password" placeholder='password' className="form-control" required='required'/>
-    
-  </div>
-  <br/>
+  const onSubmit = async (event) => {
+    event.preventDefault();
 
- 
-  <div className="row mb-4">
-    <div className="col d-flex justify-content-center">
-      
-      <div className="form-check">
-        <input className="form-check-input" type="checkbox" value="" id="form2Example31"  />
+    await axios
+      .post("http://localhost:8080/api/auth/login", { email, password })
+      .then((res) => {
+        const jwt = res.data.value;
         
-        <label className="form-check-label" for="form2Example31"> Login as Admin </label>
-      </div>
+        
+
+       const token = jwt_decode(jwt)
+       
+       const role = token.role
+       
+
+        //setAuth({ jwt, role, email });
+
+        navigate(from, { replace: true });
+
+        alert("login successful");
+      })
+      .catch((err) => {
+       
+        alert("invalid credentials");
+      });
+  };
+
+  return (
+    <div className="loginb">
+      <form onSubmit={onSubmit}>
+        <div className="form">
+          <h1>Hospital appointment module</h1>
+          <br />
+          <h1>User Login</h1>
+          <input
+            type="email"
+            placeholder="Enter your email..."
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="form-control"
+            required="required"
+          />
+          <br />
+
+          <br />
+
+          <div className="form-outline mb-4">
+            <input
+              type="password"
+              placeholder="Enter your password..."
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="form-control"
+              required="required"
+            />
+          </div>
+          <br />
+
+          <div className="row mb-4">
+            <div className="col d-flex justify-content-center">
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="form2Example31"
+                />
+
+                <label className="form-check-label"> Login as Admin </label>
+              </div>
+            </div>
+            <br />
+
+            <div className="col">
+              <p className="kfc">
+                <a href="#!">Forgot password?</a>
+                Or <a href="/addPatients">Create account</a>
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <button type="submit" className="btn">
+              Login
+            </button>
+            <br />
+          </div>
+        </div>
+      </form>
     </div>
-    <br/>
+  );
+}
 
-    <div className="col">
-    
-    <p className = 'kfc'><a href="#!">Forgot password?</a>
-       Or  <a href="/addPatients">Create account</a></p>
-    </div>
-  </div>
-  
-  <div className="text-center">
-   
-
-
-  <button type="submit" className="btn" onClick={() => {navigate('/finaldoctorsdb')}}>Sign in</button>
-  <br/>
-  </div>
-
-  
-  
-    
-    
-    
-
-  </div>
-</form>
-</div>
-
-      
-    );
-  }
-  
-  export default UserLogin;
+export default UserLogin;

@@ -1,11 +1,26 @@
+import React, {useState, useEffect} from 'react';
+import { addDoctor } from '../api/adminApi';
+import { getAllDoctors } from '../api/doctorApi';
+import '../adminDb.css';
 
-import React, { useState } from 'react'
-import '../adminDb.css'
-import data from '../mock-data.json'
 
 
 const AdminDb = () => {
-  const [contacts, setContacts] = useState(data);
+
+  const [doctors, setDoctors] = useState([])
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      await getAllDoctors().then((res) => {
+        setDoctors(res)
+      }).catch((e) => {
+        console.log(e)
+      })
+    }
+
+   fetchDoctors()
+  }, [])
+ 
 
   return (
     <div className='container'>
@@ -19,12 +34,17 @@ const AdminDb = () => {
           </tr>
         </thead>
         <tbody>
-          {contacts.map((contacts)=>(<tr>
-            <td>{contacts.id}</td>
-            <td>{contacts.FirstName}</td>
-            <td>{contacts.LastName}</td>
-            <td>{contacts.Specialization}</td>
-          </tr>))}
+        {
+          doctors && doctors.map(({id, doctorName, lastName, username}) => (
+            <tr key={id}>
+              <td>{id}</td>
+              <td>{doctorName}</td>
+              <td>{lastName}</td>
+              <td>{username}</td>
+            </tr>
+          ))
+
+         }
           
         </tbody>
       </table>

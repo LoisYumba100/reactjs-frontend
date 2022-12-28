@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
-import data from '../dummydata.json'
+
 import '../adminDb.css'
 
 
 const PatientsDb = () => {
-  const [contacts, setContacts] = useState(data);
+  
 
   return (
     <div className='container'>
@@ -20,14 +20,7 @@ const PatientsDb = () => {
           </tr>
         </thead>
         <tbody>
-          {contacts.map((contacts)=>(<tr>
-            <td>{contacts.id}</td>
-            <td>{contacts.PatientName}</td>
-            <td>{contacts.DoctorName}</td>
-            <td>{contacts.AppontmentDescription}</td>
-            <td>{contacts.AppontmentTime}</td>
-            <td>{contacts.Status}</td>
-          </tr>))}
+         
           
         </tbody>
       </table>

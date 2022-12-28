@@ -1,36 +1,46 @@
-import React, {useState} from 'react'
-import data from '../dummydata.json'
-import '../adminDb.css'
-
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "../adminDb.css";
 
 const Doctorsdb = () => {
-  const [contacts, setContacts] = useState(data);
+  const [appointments, setAppointments] = useState([]);
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      await axios
+        .get("http://localhost:8080/api/doctor/get-appointments")
+        .then((res) => {
+          setAppointments(res.data);
+        })
+        .catch((err) => console.log(err));
+    };
+
+    fetchAppointments();
+  }, []);
 
   return (
-    <div className='container'>
+    <div className="container">
       <table>
         <thead>
           <tr>
-            <th>id</th>
-            <th>Patient name</th>
-            <th>Doctor name</th>
-            <th>Appointment description</th>
-            <th>Appointment time</th>
-            <th>Status</th>
-            <th>Action</th>
+            <th>Doctor</th>
+            <th>Patient</th>
+            <th>Appointment Time</th>
+            <th>approval</th>
           </tr>
         </thead>
         <tbody>
-          {contacts.map((contacts)=>(<tr>
-            <td>{contacts.id}</td>
-            <td>{contacts.PatientName}</td>
-            <td>{contacts.DoctorName}</td>
-            <td>{contacts.AppontmentDescription}</td>
-            <td>{contacts.AppontmentTime}</td>
-            <td>{contacts.Status}</td>
-            <td>{contacts.Action}</td>
-          </tr>))}
-          
+          {appointments &&
+            appointments.map(
+              ({ appointmentTime, approval, doctor_id, patient_id }) => (
+                <tr key={doctor_id}>
+                  <td>{doctor_id}</td>
+                  <td>{patient_id}</td>
+                  <td>{appointmentTime}</td>
+                  <td>{approval}</td>
+                </tr>
+              )
+            )}
         </tbody>
       </table>
     </div>
